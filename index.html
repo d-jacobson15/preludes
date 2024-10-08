@@ -8,19 +8,32 @@
         body {
             font-family: 'Georgia', serif;
             background-color: #f9f9f9;
-            color: #333;
-            line-height: 1.6;
             margin: 20px;
         }
+        .container {
+            display: flex;
+            justify-content: space-between;
+            width: 100%;
+            max-width: 1000px;
+            margin: 0 auto;
+        }
         .poem {
-            margin: 20px auto;
+            flex: 1;
             padding: 20px;
             background-color: #fff;
             border: 1px solid #ddd;
             border-radius: 8px;
-            width: 80%;
-            max-width: 600px;
+            margin-right: 20px;
             box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .annotations {
+            flex: 1;
+            padding: 20px;
+            background-color: #eef7ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+            min-height: 200px;
         }
         .line {
             cursor: pointer;
@@ -32,65 +45,41 @@
             background-color: #f0f0f0;
             color: #0056b3;
         }
-        .annotation {
-            display: none;
-            padding: 10px;
-            margin-top: 10px;
-            background-color: #e9f7ef;
-            border: 1px solid #8dd1a8;
-            border-radius: 4px;
-            position: relative;
-        }
-        .annotation button {
-            position: absolute;
-            top: 5px;
-            right: 10px;
-            background-color: transparent;
-            border: none;
-            font-size: 16px;
-            cursor: pointer;
-            color: #888;
-        }
-        .annotation button:hover {
-            color: #555;
-        }
         .annotation-content {
-            margin-right: 20px; /* Allows space for the close button */
+            display: none;
         }
     </style>
     <script>
-        function toggleAnnotation(id) {
-            var annotation = document.getElementById(id);
-            if (annotation.style.display === "none" || annotation.style.display === "") {
-                annotation.style.display = "block";
-            } else {
-                annotation.style.display = "none";
+        function showAnnotation(id) {
+            var annotations = document.getElementsByClassName('annotation-content');
+            for (var i = 0; i < annotations.length; i++) {
+                annotations[i].style.display = "none"; // Hide all annotations
             }
-        }
-        function closeAnnotation(id) {
-            document.getElementById(id).style.display = "none";
+            document.getElementById(id).style.display = "block"; // Show the clicked annotation
         }
     </script>
 </head>
 <body>
 
-<div class="poem">
-    <p class="line" onclick="toggleAnnotation('annotation1')">The cold wind whispers through the night.</p>
-    <div class="annotation" id="annotation1">
-        <button onclick="closeAnnotation('annotation1')">✖</button>
-        <div class="annotation-content">This line uses auditory imagery to evoke a sense of eeriness.</div>
+<div class="container">
+    <!-- Poem on the left -->
+    <div class="poem">
+        <p class="line" onclick="showAnnotation('annotation1')">The cold wind whispers through the night.</p>
+        <p class="line" onclick="showAnnotation('annotation2')">Beneath the moon's pale light, shadows dance.</p>
+        <p class="line" onclick="showAnnotation('annotation3')">A lone wolf howls in the distance, lost to time.</p>
     </div>
 
-    <p class="line" onclick="toggleAnnotation('annotation2')">Beneath the moon's pale light, shadows dance.</p>
-    <div class="annotation" id="annotation2">
-        <button onclick="closeAnnotation('annotation2')">✖</button>
-        <div class="annotation-content">The phrase "pale light" reflects the Gothic imagery of death and isolation.</div>
-    </div>
-
-    <p class="line" onclick="toggleAnnotation('annotation3')">A lone wolf howls in the distance, lost to time.</p>
-    <div class="annotation" id="annotation3">
-        <button onclick="closeAnnotation('annotation3')">✖</button>
-        <div class="annotation-content">The wolf symbolises isolation and the unknown, a common motif in Gothic poetry.</div>
+    <!-- Annotations on the right -->
+    <div class="annotations">
+        <div id="annotation1" class="annotation-content">
+            <p>This line uses auditory imagery to evoke a sense of eeriness.</p>
+        </div>
+        <div id="annotation2" class="annotation-content">
+            <p>The phrase "pale light" reflects the Gothic imagery of death and isolation.</p>
+        </div>
+        <div id="annotation3" class="annotation-content">
+            <p>The wolf symbolises isolation and the unknown, a common motif in Gothic poetry.</p>
+        </div>
     </div>
 </div>
 
