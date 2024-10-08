@@ -14,9 +14,8 @@
         }
         .container {
             width: 100%;
-            max-width: 800px;
+            max-width: 1200px;
             margin: 0 auto;
-            padding: 20px;
         }
         h1 {
             font-size: 24px;
@@ -43,14 +42,93 @@
         .button:hover {
             background-color: #003366;
         }
-        p {
-            margin: 10px 0;
+        .content-box {
+            display: none;
+            background-color: #eef7ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            margin-bottom: 30px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .active-content {
+            display: block;
+        }
+        .poem-container {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 40px;
         }
         .poem {
-            white-space: pre-wrap; /* Ensures new lines are preserved */
-            font-size: 18px;
+            flex: 1;
+            padding-right: 20px;
+        }
+        .annotations {
+            flex: 1;
+            padding-left: 20px;
+            background-color: #eef7ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 20px;
+            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+        }
+        .line {
+            cursor: pointer;
+            padding: 8px;
+            margin: 5px 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+        }
+        .line:hover {
+            background-color: #f0f0f0;
+            color: #0056b3;
+        }
+        .active-line {
+            background-color: #cce5ff;
+            color: #003366;
+        }
+        .annotation-content {
+            display: none;
+        }
+        .annotation-active {
+            display: block;
+        }
+        .section-title {
+            font-weight: bold;
+            margin-top: 20px;
         }
     </style>
+    <script>
+        function showContentBox(id) {
+            // Hide all content boxes
+            var contentBoxes = document.getElementsByClassName('content-box');
+            for (var i = 0; i < contentBoxes.length; i++) {
+                contentBoxes[i].classList.remove('active-content');
+            }
+
+            // Show the clicked content box
+            document.getElementById(id).classList.add('active-content');
+        }
+
+        function showAnnotation(id, lineElement) {
+            // Hide all annotations
+            var annotations = document.getElementsByClassName('annotation-content');
+            for (var i = 0; i < annotations.length; i++) {
+                annotations[i].classList.remove('annotation-active');
+            }
+
+            // Remove highlight from all lines
+            var lines = document.getElementsByClassName('line');
+            for (var i = 0; i < lines.length; i++) {
+                lines[i].classList.remove('active-line');
+            }
+
+            // Show the selected annotation
+            document.getElementById(id).classList.add('annotation-active');
+
+            // Highlight the selected line
+            lineElement.classList.add('active-line');
+        }
+    </script>
 </head>
 <body>
 
@@ -59,20 +137,110 @@
 
     <!-- Buttons Section -->
     <div class="buttons">
-        <a href="#summary" class="button">Summary</a>
-        <a href="#techniques" class="button">Techniques</a>
-        <a href="#key-vocab" class="button">Key Vocabulary</a>
+        <button class="button" onclick="showContentBox('summary')">Summary</button>
+        <button class="button" onclick="showContentBox('techniques')">Techniques</button>
+        <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
     </div>
 
-    <!-- Poem Content -->
-    <div class="poem">
-        <p>I<br>The winter evening settles down<br>With smell of steaks in passageways.<br>Six o’clock.<br>The burnt-out ends of smoky days.<br>And now a gusty shower wraps<br>The grimy scraps<br>Of withered leaves about your feet<br>And newspapers from vacant lots;<br>The showers beat<br>On broken blinds and chimney-pots,<br>And at the corner of the street<br>A lonely cab-horse steams and stamps.<br><br>And then the lighting of the lamps.</p>
+    <!-- Content Boxes -->
+    <div id="summary" class="content-box">
+        <h2>Summary</h2>
+        <p><!-- Insert your summary here --></p>
+    </div>
 
-        <p>II<br>The morning comes to consciousness<br>Of faint stale smells of beer<br>From the sawdust-trampled street<br>With all its muddy feet that press<br>To early coffee-stands.<br>With the other masquerades<br>That time resumes,<br>One thinks of all the hands<br>That are raising dingy shades<br>In a thousand furnished rooms.</p>
+    <div id="techniques" class="content-box">
+        <h2>Techniques</h2>
+        <p><!-- Insert your techniques analysis here --></p>
+    </div>
 
-        <p>III<br>You tossed a blanket from the bed,<br>You lay upon your back, and waited;<br>You dozed, and watched the night revealing<br>The thousand sordid images<br>Of which your soul was constituted;<br>They flickered against the ceiling.<br>And when all the world came back<br>And the light crept up between the shutters<br>And you heard the sparrows in the gutters,<br>You had such a vision of the street<br>As the street hardly understands;<br>Sitting along the bed’s edge, where<br>You curled the papers from your hair,<br>Or clasped the yellow soles of feet<br>In the palms of both soiled hands.</p>
+    <div id="vocab" class="content-box">
+        <h2>Key Vocabulary</h2>
+        <p><!-- Insert key vocabulary here --></p>
+    </div>
 
-        <p>IV<br>His soul stretched tight across the skies<br>That fade behind a city block,<br>Or trampled by insistent feet<br>At four and five and six o’clock;<br>And short square fingers stuffing pipes,<br>And evening newspapers, and eyes<br>Assured of certain certainties,<br>The conscience of a blackened street<br>Impatient to assume the world.<br><br>I am moved by fancies that are curled<br>Around these images, and cling:<br>The notion of some infinitely gentle<br>Infinitely suffering thing.<br><br>Wipe your hand across your mouth, and laugh;<br>The worlds revolve like ancient women<br>Gathering fuel in vacant lots.</p>
+    <!-- Poem and Annotations Layout -->
+    <div class="poem-container">
+        <!-- Poem on the left -->
+        <div class="poem">
+            <p class="section-title">I</p>
+            <p class="line" onclick="showAnnotation('line1', this)">The winter evening settles down</p>
+            <p class="line" onclick="showAnnotation('line2', this)">With smell of steaks in passageways.</p>
+            <p class="line" onclick="showAnnotation('line3', this)">Six o’clock.</p>
+            <p class="line" onclick="showAnnotation('line4', this)">The burnt-out ends of smoky days.</p>
+            <p class="line" onclick="showAnnotation('line5', this)">And now a gusty shower wraps</p>
+            <p class="line" onclick="showAnnotation('line6', this)">The grimy scraps</p>
+            <p class="line" onclick="showAnnotation('line7', this)">Of withered leaves about your feet</p>
+            <p class="line" onclick="showAnnotation('line8', this)">And newspapers from vacant lots;</p>
+            <p class="line" onclick="showAnnotation('line9', this)">The showers beat</p>
+            <p class="line" onclick="showAnnotation('line10', this)">On broken blinds and chimney-pots,</p>
+            <p class="line" onclick="showAnnotation('line11', this)">And at the corner of the street</p>
+            <p class="line" onclick="showAnnotation('line12', this)">A lonely cab-horse steams and stamps.</p>
+            <p class="line" onclick="showAnnotation('line13', this)"><br>And then the lighting of the lamps.</p>
+
+            <p class="section-title">II</p>
+            <p class="line" onclick="showAnnotation('line14', this)">The morning comes to consciousness</p>
+            <p class="line" onclick="showAnnotation('line15', this)">Of faint stale smells of beer</p>
+            <p class="line" onclick="showAnnotation('line16', this)">From the sawdust-trampled street</p>
+            <p class="line" onclick="showAnnotation('line17', this)">With all its muddy feet that press</p>
+            <p class="line" onclick="showAnnotation('line18', this)">To early coffee-stands.</p>
+            <p class="line" onclick="showAnnotation('line19', this)">With the other masquerades</p>
+            <p class="line" onclick="showAnnotation('line20', this)">That time resumes,</p>
+            <p class="line" onclick="showAnnotation('line21', this)">One thinks of all the hands</p>
+            <p class="line" onclick="showAnnotation('line22', this)">That are raising dingy shades</p>
+            <p class="line" onclick="showAnnotation('line23', this)">In a thousand furnished rooms.</p>
+
+            <p class="section-title">III</p>
+            <p class="line" onclick="showAnnotation('line24', this)">You tossed a blanket from the bed,</p>
+            <p class="line" onclick="showAnnotation('line25', this)">You lay upon your back, and waited;</p>
+            <p class="line" onclick="showAnnotation('line26', this)">You dozed, and watched the night revealing</p>
+            <p class="line" onclick="showAnnotation('line27', this)">The thousand sordid images</p>
+            <p class="line" onclick="showAnnotation('line28', this)">Of which your soul was constituted;</p>
+            <p class="line" onclick="showAnnotation('line29', this)">They flickered against the ceiling.</p>
+            <p class="line" onclick="showAnnotation('line30', this)">And when all the world came back</p>
+            <p class="line" onclick="showAnnotation('line31', this)">And the light crept up between the shutters</p>
+            <p class="line" onclick="showAnnotation('line32', this)">And you heard the sparrows in the gutters,</p>
+            <p class="line" onclick="showAnnotation('line33', this)">You had such a vision of the street</p>
+            <p class="line" onclick="showAnnotation('line34', this)">As the street hardly understands;</p>
+            <p class="line" onclick="showAnnotation('line35', this)">Sitting along the bed’s edge, where</p>
+            <p class="line" onclick="showAnnotation('line36', this)">You curled the papers from your hair,</p>
+            <p class="line" onclick="showAnnotation('line37', this)">Or clasped the yellow soles of feet</p>
+            <p class="line" onclick="showAnnotation('line38', this)">In the palms of both soiled hands.</p>
+
+            <p class="section-title">IV</p>
+            <p class="line" onclick="showAnnotation('line39', this)">His soul stretched tight across the skies</p>
+            <p class="line" onclick="showAnnotation('line40', this)">That fade behind a city block,</p>
+            <p class="line" onclick="showAnnotation('line41', this)">Or trampled by insistent feet</p>
+            <p class="line" onclick="showAnnotation('line42', this)">At four and five and six o’clock;</p>
+            <p class="line" onclick="showAnnotation('line43', this)">And short square fingers stuffing pipes,</p>
+            <p class="line" onclick="showAnnotation('line44', this)">And evening newspapers, and eyes</p>
+            <p class="line" onclick="showAnnotation('line45', this)">Assured of certain certainties,</p>
+            <p class="line" onclick="showAnnotation('line46', this)">The conscience of a blackened street</p>
+            <p class="line" onclick="showAnnotation('line47', this)">Impatient to assume the world.</p>
+
+            <p class="line" onclick="showAnnotation('line48', this)"><br>I am moved by fancies that are curled</p>
+            <p class="line" onclick="showAnnotation('line49', this)">Around these images, and cling:</p>
+            <p class="line" onclick="showAnnotation('line50', this)">The notion of some infinitely gentle</p>
+            <p class="line" onclick="showAnnotation('line51', this)">Infinitely suffering thing.</p>
+
+            <p class="line" onclick="showAnnotation('line52', this)"><br>Wipe your hand across your mouth, and laugh;</p>
+            <p class="line" onclick="showAnnotation('line53', this)">The worlds revolve like ancient women</p>
+            <p class="line" onclick="showAnnotation('line54', this)">Gathering fuel in vacant lots.</p>
+        </div>
+
+        <!-- Annotations on the right -->
+        <div class="annotations">
+            <div id="line1" class="annotation-content">
+                <p><strong>Line 1:</strong> The winter evening settles down - <!-- Add annotation for Line 1 here --></p>
+            </div>
+            <div id="line2" class="annotation-content">
+                <p><strong>Line 2:</strong> With smell of steaks in passageways. - <!-- Add annotation for Line 2 here --></p>
+            </div>
+            <div id="line3" class="annotation-content">
+                <p><strong>Line 3:</strong> Six o’clock. - <!-- Add annotation for Line 3 here --></p>
+            </div>
+            <!-- Continue adding annotation divs for each line -->
+            <!-- Add the rest of the annotations in the same manner -->
+        </div>
     </div>
 </div>
 
