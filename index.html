@@ -45,17 +45,33 @@
             background-color: #f0f0f0;
             color: #0056b3;
         }
+        .active-line {
+            background-color: #cce5ff; /* Highlight color for active line */
+            color: #003366;
+        }
         .annotation-content {
             display: none;
         }
     </style>
     <script>
-        function showAnnotation(id) {
+        function showAnnotation(id, lineElement) {
+            // Hide all annotations
             var annotations = document.getElementsByClassName('annotation-content');
             for (var i = 0; i < annotations.length; i++) {
-                annotations[i].style.display = "none"; // Hide all annotations
+                annotations[i].style.display = "none";
             }
-            document.getElementById(id).style.display = "block"; // Show the clicked annotation
+
+            // Remove highlight from all lines
+            var lines = document.getElementsByClassName('line');
+            for (var i = 0; i < lines.length; i++) {
+                lines[i].classList.remove('active-line');
+            }
+
+            // Show the selected annotation
+            document.getElementById(id).style.display = "block";
+
+            // Highlight the selected line
+            lineElement.classList.add('active-line');
         }
     </script>
 </head>
@@ -64,9 +80,9 @@
 <div class="container">
     <!-- Poem on the left -->
     <div class="poem">
-        <p class="line" onclick="showAnnotation('annotation1')">The cold wind whispers through the night.</p>
-        <p class="line" onclick="showAnnotation('annotation2')">Beneath the moon's pale light, shadows dance.</p>
-        <p class="line" onclick="showAnnotation('annotation3')">A lone wolf howls in the distance, lost to time.</p>
+        <p class="line" onclick="showAnnotation('annotation1', this)">The cold wind whispers through the night.</p>
+        <p class="line" onclick="showAnnotation('annotation2', this)">Beneath the moon's pale light, shadows dance.</p>
+        <p class="line" onclick="showAnnotation('annotation3', this)">A lone wolf howls in the distance, lost to time.</p>
     </div>
 
     <!-- Annotations on the right -->
