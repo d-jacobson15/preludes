@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Annotated Poem</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+        }
+        .poem {
+            margin: 20px;
+            padding: 10px;
+            background-color: #f5f5f5;
+            border: 1px solid #ddd;
+        }
+        .line {
+            cursor: pointer;
+            padding: 5px;
+        }
+        .annotation {
+            display: none;
+            padding: 5px;
+            margin-top: 5px;
+            background-color: #eef;
+            border: 1px solid #ccd;
+        }
+    </style>
+    <script>
+        function toggleAnnotation(id) {
+            var annotation = document.getElementById(id);
+            if (annotation.style.display === "none") {
+                annotation.style.display = "block";
+            } else {
+                annotation.style.display = "none";
+            }
+        }
+    </script>
+</head>
+<body>
+
+<div class="poem">
+    <p class="line" onclick="toggleAnnotation('annotation1')">The cold wind whispers through the night.</p>
+    <div class="annotation" id="annotation1">This line uses auditory imagery to evoke a sense of eeriness.</div>
+
+    <p class="line" onclick="toggleAnnotation('annotation2')">Beneath the moon's pale light, shadows dance.</p>
+    <div class="annotation" id="annotation2">The phrase "pale light" reflects the Gothic imagery of death and isolation.</div>
+
+    <p class="line" onclick="toggleAnnotation('annotation3')">A lone wolf howls in the distance, lost to time.</p>
+    <div class="annotation" id="annotation3">The wolf symbolises isolation and the unknown, a common motif in Gothic poetry.</div>
+</div>
+
+</body>
+</html>
