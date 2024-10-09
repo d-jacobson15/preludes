@@ -73,7 +73,6 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 100;
-    left: 50%; /* Adjust this value to position it next to the poem */
 }
         .line {
             cursor: pointer;
@@ -112,10 +111,11 @@
     // Position the popup near the clicked line
     popup.style.top = rect.top + window.scrollY + 'px'; // Align the popup vertically with the line
 
-    // Position the popup to the right of the poem container, not the page
+    // Get the position of the poem container
     var poemContainer = document.querySelector('.poem');
-    var poemRect = poemContainer.getBoundingClientRect();
-    popup.style.left = poemRect.right + 10 + 'px'; // Adjust the space next to the poem
+
+    // Calculate the left position of the popup relative to the poem
+    popup.style.left = poemContainer.offsetLeft + poemContainer.offsetWidth + 20 + 'px'; // Add a small margin between the poem and popup
 
     // Show the popup
     popup.style.display = 'block';
@@ -146,7 +146,8 @@ document.addEventListener('click', function(event) {
 
     <!-- Buttons Section -->
     <div class="buttons">
-        <button class="button" onclick="showContentBox('summary')">Summary</button>
+        <button class="button" onclick="showContentBox('summary')">"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life, focusing on the monotony, alienation, and spiritual decay of its inhabitants. Eliot presents a world in which time is cyclical, where each day is consumed by repetitive, meaningless routines. The poem's imagery, including withered leaves, grimy streets, and sordid rooms, reflects the decay and desolation of both the physical and moral landscape. Individuals are reduced to mere body parts or mechanical actions, disconnected from any deeper sense of purpose. Throughout, Eliot critiques the dehumanising effects of industrialisation, portraying life as a series of empty performances or "masquerades." The poem concludes with an image of "ancient women gathering fuel in vacant lots," reinforcing the sense of futility, as life continues to revolve in endless, purposeless cycles, with no hope for redemption or renewal.
+</button>
         <button class="button" onclick="showContentBox('techniques')">Techniques</button>
         <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
     </div>
