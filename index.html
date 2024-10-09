@@ -161,20 +161,20 @@ document.addEventListener('click', function(event) {
 <div class="container">
     <h1>PRELUDES<br>T.S. Eliot | 1917</h1>
 
-    <!-- Buttons Section -->
-    <button class="button" onclick="showContentBox('summary')">Summary</button>
-<button class="button" onclick="showContentBox('techniques')">Techniques</button>
-<button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
-    
+   <!-- Buttons Section -->
+    <div class="buttons">
+        <a href="#summary" class="button">Summary</a>
+        <a href="#techniques" class="button">Techniques</a>
+        <a href="#key-vocab" class="button">Key Vocabulary</a>
+        <button class="button" onclick="showContentBox('summary')">Summary</button>
+        <button class="button" onclick="showContentBox('techniques')">Techniques</button>
+        <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
+    </div>
+    <!-- Content Boxes -->
     <div id="summary" class="content-box">
-    <p>"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life...</p>
-</div>
-<div id="techniques" class="content-box">
-    <p>Techniques used in the poem include imagery, symbolism, and alliteration...</p>
-</div>
-<div id="vocab" class="content-box">
-    <p>Key vocabulary includes "masquerades," "sordid," and "conscience."</p>
-</div>
+        <h2>Summary</h2>
+        <p><!-- Insert your summary here --></p>
+    </div>
     
     <!-- Poem and Annotations Layout -->
     <div class="poem-container">
