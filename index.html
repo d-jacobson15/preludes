@@ -63,51 +63,31 @@
             flex: 1;
             padding-right: 20px;
         }
-        .annotations {
-    flex: 1;
-    padding-left: 20px;
-    background-color: #eef7ff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 20px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-    height: 500px; /* Set a fixed height */
-    overflow-y: auto; /* Allow vertical scrolling within the annotations container */
-}
         .popup {
-    position: absolute;
-    background-color: #eef7ff;
-    border: 1px solid #ccc;
-    border-radius: 8px;
-    padding: 10px;
-    max-width: 300px;
-    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    display: none;
-    z-index: 100;
-}
-
-.line {
-    cursor: pointer;
-    padding: 8px;
-    margin: 5px 0;
-    transition: background-color 0.3s ease, color 0.3s ease;
-    position: relative; /* Necessary for positioning the popup */
-}
-
-.line:hover {
-    background-color: #f0f0f0;
-    color: #0056b3;
-}
-
-.active-line {
-    background-color: #cce5ff;
-    color: #003366;
-}
-        .annotation-content {
+            position: absolute;
+            background-color: #eef7ff;
+            border: 1px solid #ccc;
+            border-radius: 8px;
+            padding: 10px;
+            max-width: 300px;
+            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             display: none;
+            z-index: 100;
         }
-        .annotation-active {
-            display: block;
+        .line {
+            cursor: pointer;
+            padding: 8px;
+            margin: 5px 0;
+            transition: background-color 0.3s ease, color 0.3s ease;
+            position: relative;
+        }
+        .line:hover {
+            background-color: #f0f0f0;
+            color: #0056b3;
+        }
+        .active-line {
+            background-color: #cce5ff;
+            color: #003366;
         }
         .section-title {
             font-weight: bold;
@@ -115,53 +95,43 @@
         }
     </style>
     <script>
-        function showContentBox(id) {
-            // Hide all content boxes
-            var contentBoxes = document.getElementsByClassName('content-box');
-            for (var i = 0; i < contentBoxes.length; i++) {
-                contentBoxes[i].classList.remove('active-content');
+        function showAnnotation(id, lineElement) {
+            // Get the annotation text based on the clicked line's ID
+            var annotationText = document.getElementById(id).innerHTML;
+
+            // Get the position of the clicked line
+            var rect = lineElement.getBoundingClientRect();
+
+            // Get the popup element
+            var popup = document.getElementById('annotation-popup');
+
+            // Set the content of the popup
+            popup.innerHTML = annotationText;
+
+            // Position the popup near the clicked line
+            popup.style.left = rect.left + window.scrollX + 'px';
+            popup.style.top = rect.top + window.scrollY + 30 + 'px';
+
+            // Show the popup
+            popup.style.display = 'block';
+
+            // Remove highlight from all lines
+            var lines = document.getElementsByClassName('line');
+            for (var i = 0; i < lines.length; i++) {
+                lines[i].classList.remove('active-line');
             }
 
-            // Show the clicked content box
-            document.getElementById(id).classList.add('active-content');
+            // Highlight the selected line
+            lineElement.classList.add('active-line');
         }
-function showAnnotation(id, lineElement) {
-    // Get the annotation text based on the clicked line's ID
-    var annotationText = document.getElementById(id).innerHTML;
 
-    // Get the position of the clicked line
-    var rect = lineElement.getBoundingClientRect();
-
-    // Get the popup element
-    var popup = document.getElementById('annotation-popup');
-
-    // Set the content of the popup
-    popup.innerHTML = annotationText;
-
-    // Position the popup near the clicked line
-    popup.style.left = rect.right + window.scrollX + 10 + 'px'; // Adjust the popup to appear next to the line
-    popup.style.top = rect.top + window.scrollY + 'px'; // Align the popup vertically with the line
-
-    // Show the popup
-    popup.style.display = 'block';
-
-    // Remove highlight from all lines
-    var lines = document.getElementsByClassName('line');
-    for (var i = 0; i < lines.length; i++) {
-        lines[i].classList.remove('active-line');
-    }
-
-    // Highlight the selected line
-    lineElement.classList.add('active-line');
-}
-
-// Close the popup if clicking elsewhere
-document.addEventListener('click', function(event) {
-    var popup = document.getElementById('annotation-popup');
-    if (!event.target.classList.contains('line')) {
-        popup.style.display = 'none'; // Hide the popup when clicking outside
-    }
-});
+        // Close the popup if clicking elsewhere
+        document.addEventListener('click', function(event) {
+            var popup = document.getElementById('annotation-popup');
+            if (!event.target.classList.contains('line')) {
+                popup.style.display = 'none'; // Hide the popup when clicking outside
+            }
+        });
     </script>
 </head>
 <body>
@@ -174,22 +144,6 @@ document.addEventListener('click', function(event) {
         <button class="button" onclick="showContentBox('summary')">Summary</button>
         <button class="button" onclick="showContentBox('techniques')">Techniques</button>
         <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
-    </div>
-
-    <!-- Content Boxes -->
-    <div id="summary" class="content-box">
-        <h2>Summary</h2>
-        <p><!-- Insert your summary here --></p>
-    </div>
-
-    <div id="techniques" class="content-box">
-        <h2>Techniques</h2>
-        <p><!-- Insert your techniques analysis here --></p>
-    </div>
-
-    <div id="vocab" class="content-box">
-        <h2>Key Vocabulary</h2>
-        <p><!-- Insert key vocabulary here --></p>
     </div>
 
     <!-- Poem and Annotations Layout -->
@@ -260,166 +214,172 @@ document.addEventListener('click', function(event) {
             <p class="line" onclick="showAnnotation('line53', this)">The worlds revolve like ancient women</p>
             <p class="line" onclick="showAnnotation('line54', this)">Gathering fuel in vacant lots.</p>
         </div>
-        
-   <div id="line4" class="annotation-content">
-                <p><strong>Line 4:</strong> The burnt-out ends of smoky days. - <!-- Add annotation for Line 4 here --></p>
-            </div>
-            <div id="line5" class="annotation-content">
-                <p><strong>Line 5:</strong> And now a gusty shower wraps - <!-- Add annotation for Line 5 here --></p>
-            </div>
-            <div id="line6" class="annotation-content">
-                <p><strong>Line 6:</strong> The grimy scraps - <!-- Add annotation for Line 6 here --></p>
-            </div>
-            <div id="line7" class="annotation-content">
-                <p><strong>Line 7:</strong> Of withered leaves about your feet - <!-- Add annotation for Line 7 here --></p>
-            </div>
-            <div id="line8" class="annotation-content">
-                <p><strong>Line 8:</strong> And newspapers from vacant lots; - <!-- Add annotation for Line 8 here --></p>
-            </div>
-            <div id="line9" class="annotation-content">
-                <p><strong>Line 9:</strong> The showers beat - <!-- Add annotation for Line 9 here --></p>
-            </div>
-            <div id="line10" class="annotation-content">
-                <p><strong>Line 10:</strong> On broken blinds and chimney-pots, - <!-- Add annotation for Line 10 here --></p>
-            </div>
-            <div id="line11" class="annotation-content">
-                <p><strong>Line 11:</strong> And at the corner of the street - <!-- Add annotation for Line 11 here --></p>
-            </div>
-            <div id="line12" class="annotation-content">
-                <p><strong>Line 12:</strong> A lonely cab-horse steams and stamps. - <!-- Add annotation for Line 12 here --></p>
-            </div>
-            <div id="line13" class="annotation-content">
-                <p><strong>Line 13:</strong> And then the lighting of the lamps. - <!-- Add annotation for Line 13 here --></p>
-            </div>
-
-            <div id="line14" class="annotation-content">
-                <p><strong>Line 14:</strong> The morning comes to consciousness - <!-- Add annotation for Line 14 here --></p>
-            </div>
-            <div id="line15" class="annotation-content">
-                <p><strong>Line 15:</strong> Of faint stale smells of beer - <!-- Add annotation for Line 15 here --></p>
-            </div>
-            <div id="line16" class="annotation-content">
-                <p><strong>Line 16:</strong> From the sawdust-trampled street - <!-- Add annotation for Line 16 here --></p>
-            </div>
-            <div id="line17" class="annotation-content">
-                <p><strong>Line 17:</strong> With all its muddy feet that press - <!-- Add annotation for Line 17 here --></p>
-            </div>
-            <div id="line18" class="annotation-content">
-                <p><strong>Line 18:</strong> To early coffee-stands. - <!-- Add annotation for Line 18 here --></p>
-            </div>
-            <div id="line19" class="annotation-content">
-                <p><strong>Line 19:</strong> With the other masquerades - <!-- Add annotation for Line 19 here --></p>
-            </div>
-            <div id="line20" class="annotation-content">
-                <p><strong>Line 20:</strong> That time resumes, - <!-- Add annotation for Line 20 here --></p>
-            </div>
-            <div id="line21" class="annotation-content">
-                <p><strong>Line 21:</strong> One thinks of all the hands - <!-- Add annotation for Line 21 here --></p>
-            </div>
-            <div id="line22" class="annotation-content">
-                <p><strong>Line 22:</strong> That are raising dingy shades - <!-- Add annotation for Line 22 here --></p>
-            </div>
-            <div id="line23" class="annotation-content">
-                <p><strong>Line 23:</strong> In a thousand furnished rooms. - <!-- Add annotation for Line 23 here --></p>
-            </div>
-
-            <div id="line24" class="annotation-content">
-                <p><strong>Line 24:</strong> You tossed a blanket from the bed, - <!-- Add annotation for Line 24 here --></p>
-            </div>
-            <div id="line25" class="annotation-content">
-                <p><strong>Line 25:</strong> You lay upon your back, and waited; - <!-- Add annotation for Line 25 here --></p>
-            </div>
-            <div id="line26" class="annotation-content">
-                <p><strong>Line 26:</strong> You dozed, and watched the night revealing - <!-- Add annotation for Line 26 here --></p>
-            </div>
-            <div id="line27" class="annotation-content">
-                <p><strong>Line 27:</strong> The thousand sordid images - <!-- Add annotation for Line 27 here --></p>
-            </div>
-            <div id="line28" class="annotation-content">
-                <p><strong>Line 28:</strong> Of which your soul was constituted; - <!-- Add annotation for Line 28 here --></p>
-            </div>
-            <div id="line29" class="annotation-content">
-                <p><strong>Line 29:</strong> They flickered against the ceiling. - <!-- Add annotation for Line 29 here --></p>
-            </div>
-            <div id="line30" class="annotation-content">
-                <p><strong>Line 30:</strong> And when all the world came back - <!-- Add annotation for Line 30 here --></p>
-            </div>
-            <div id="line31" class="annotation-content">
-                <p><strong>Line 31:</strong> And the light crept up between the shutters - <!-- Add annotation for Line 31 here --></p>
-            </div>
-            <div id="line32" class="annotation-content">
-                <p><strong>Line 32:</strong> And you heard the sparrows in the gutters, - <!-- Add annotation for Line 32 here --></p>
-            </div>
-            <div id="line33" class="annotation-content">
-                <p><strong>Line 33:</strong> You had such a vision of the street - <!-- Add annotation for Line 33 here --></p>
-            </div>
-            <div id="line34" class="annotation-content">
-                <p><strong>Line 34:</strong> As the street hardly understands; - <!-- Add annotation for Line 34 here --></p>
-            </div>
-            <div id="line35" class="annotation-content">
-                <p><strong>Line 35:</strong> Sitting along the bed’s edge, where - <!-- Add annotation for Line 35 here --></p>
-            </div>
-            <div id="line36" class="annotation-content">
-                <p><strong>Line 36:</strong> You curled the papers from your hair, - <!-- Add annotation for Line 36 here --></p>
-            </div>
-            <div id="line37" class="annotation-content">
-                <p><strong>Line 37:</strong> Or clasped the yellow soles of feet - <!-- Add annotation for Line 37 here --></p>
-            </div>
-            <div id="line38" class="annotation-content">
-                <p><strong>Line 38:</strong> In the palms of both soiled hands. - <!-- Add annotation for Line 38 here --></p>
-            </div>
-
-            <div id="line39" class="annotation-content">
-                <p><strong>Line 39:</strong> His soul stretched tight across the skies - <!-- Add annotation for Line 39 here --></p>
-            </div>
-            <div id="line40" class="annotation-content">
-                <p><strong>Line 40:</strong> That fade behind a city block, - <!-- Add annotation for Line 40 here --></p>
-            </div>
-            <div id="line41" class="annotation-content">
-                <p><strong>Line 41:</strong> Or trampled by insistent feet - <!-- Add annotation for Line 41 here --></p>
-            </div>
-            <div id="line42" class="annotation-content">
-                <p><strong>Line 42:</strong> At four and five and six o’clock; - <!-- Add annotation for Line 42 here --></p>
-            </div>
-            <div id="line43" class="annotation-content">
-                <p><strong>Line 43:</strong> And short square fingers stuffing pipes, - <!-- Add annotation for Line 43 here --></p>
-            </div>
-            <div id="line44" class="annotation-content">
-                <p><strong>Line 44:</strong> And evening newspapers, and eyes - <!-- Add annotation for Line 44 here --></p>
-            </div>
-            <div id="line45" class="annotation-content">
-                <p><strong>Line 45:</strong> Assured of certain certainties, - <!-- Add annotation for Line 45 here --></p>
-            </div>
-            <div id="line46" class="annotation-content">
-                <p><strong>Line 46:</strong> The conscience of a blackened street - <!-- Add annotation for Line 46 here --></p>
-            </div>
-            <div id="line47" class="annotation-content">
-                <p><strong>Line 47:</strong> Impatient to assume the world. - <!-- Add annotation for Line 47 here --></p>
-            </div>
-            <div id="line48" class="annotation-content">
-                <p><strong>Line 48:</strong> I am moved by fancies that are curled - <!-- Add annotation for Line 48 here --></p>
-            </div>
-            <div id="line49" class="annotation-content">
-                <p><strong>Line 49:</strong> Around these images, and cling: - <!-- Add annotation for Line 49 here --></p>
-            </div>
-            <div id="line50" class="annotation-content">
-                <p><strong>Line 50:</strong> The notion of some infinitely gentle - <!-- Add annotation for Line 50 here --></p>
-            </div>
-            <div id="line51" class="annotation-content">
-                <p><strong>Line 51:</strong> Infinitely suffering thing. - <!-- Add annotation for Line 51 here --></p>
-            </div>
-            <div id="line52" class="annotation-content">
-                <p><strong>Line 52:</strong> Wipe your hand across your mouth, and laugh; - <!-- Add annotation for Line 52 here --></p>
-            </div>
-            <div id="line53" class="annotation-content">
-                <p><strong>Line 53:</strong> The worlds revolve like ancient women - <!-- Add annotation for Line 53 here --></p>
-            </div>
-            <div id="line54" class="annotation-content">
-                <p><strong>Line 54:</strong> Gathering fuel in vacant lots. - <!-- Add annotation for Line 54 here --></p>
-            </div>
-        </div>
     </div>
 </div>
+<!-- Annotations for each line -->
+<div id="line1" style="display:none;">
+    <p><strong>Line 1:</strong> <!-- Add annotation for Line 1 here --></p>
+</div>
+<div id="line2" style="display:none;">
+    <p><strong>Line 2:</strong> <!-- Add annotation for Line 2 here --></p>
+</div>
+<div id="line3" style="display:none;">
+    <p><strong>Line 3:</strong> <!-- Add annotation for Line 3 here --></p>
+</div>
+<div id="line4" style="display:none;">
+    <p><strong>Line 4:</strong> <!-- Add annotation for Line 4 here --></p>
+</div>
+<div id="line5" style="display:none;">
+    <p><strong>Line 5:</strong> <!-- Add annotation for Line 5 here --></p>
+</div>
+<div id="line6" style="display:none;">
+    <p><strong>Line 6:</strong> <!-- Add annotation for Line 6 here --></p>
+</div>
+<div id="line7" style="display:none;">
+    <p><strong>Line 7:</strong> <!-- Add annotation for Line 7 here --></p>
+</div>
+<div id="line8" style="display:none;">
+    <p><strong>Line 8:</strong> <!-- Add annotation for Line 8 here --></p>
+</div>
+<div id="line9" style="display:none;">
+    <p><strong>Line 9:</strong> <!-- Add annotation for Line 9 here --></p>
+</div>
+<div id="line10" style="display:none;">
+    <p><strong>Line 10:</strong> <!-- Add annotation for Line 10 here --></p>
+</div>
+<div id="line11" style="display:none;">
+    <p><strong>Line 11:</strong> <!-- Add annotation for Line 11 here --></p>
+</div>
+<div id="line12" style="display:none;">
+    <p><strong>Line 12:</strong> <!-- Add annotation for Line 12 here --></p>
+</div>
+<div id="line13" style="display:none;">
+    <p><strong>Line 13:</strong> <!-- Add annotation for Line 13 here --></p>
+</div>
+<div id="line14" style="display:none;">
+    <p><strong>Line 14:</strong> <!-- Add annotation for Line 14 here --></p>
+</div>
+<div id="line15" style="display:none;">
+    <p><strong>Line 15:</strong> <!-- Add annotation for Line 15 here --></p>
+</div>
+<div id="line16" style="display:none;">
+    <p><strong>Line 16:</strong> <!-- Add annotation for Line 16 here --></p>
+</div>
+<div id="line17" style="display:none;">
+    <p><strong>Line 17:</strong> <!-- Add annotation for Line 17 here --></p>
+</div>
+<div id="line18" style="display:none;">
+    <p><strong>Line 18:</strong> <!-- Add annotation for Line 18 here --></p>
+</div>
+<div id="line19" style="display:none;">
+    <p><strong>Line 19:</strong> <!-- Add annotation for Line 19 here --></p>
+</div>
+<div id="line20" style="display:none;">
+    <p><strong>Line 20:</strong> <!-- Add annotation for Line 20 here --></p>
+</div>
+<div id="line21" style="display:none;">
+    <p><strong>Line 21:</strong> <!-- Add annotation for Line 21 here --></p>
+</div>
+<div id="line22" style="display:none;">
+    <p><strong>Line 22:</strong> <!-- Add annotation for Line 22 here --></p>
+</div>
+<div id="line23" style="display:none;">
+    <p><strong>Line 23:</strong> <!-- Add annotation for Line 23 here --></p>
+</div>
+<div id="line24" style="display:none;">
+    <p><strong>Line 24:</strong> <!-- Add annotation for Line 24 here --></p>
+</div>
+<div id="line25" style="display:none;">
+    <p><strong>Line 25:</strong> <!-- Add annotation for Line 25 here --></p>
+</div>
+<div id="line26" style="display:none;">
+    <p><strong>Line 26:</strong> <!-- Add annotation for Line 26 here --></p>
+</div>
+<div id="line27" style="display:none;">
+    <p><strong>Line 27:</strong> <!-- Add annotation for Line 27 here --></p>
+</div>
+<div id="line28" style="display:none;">
+    <p><strong>Line 28:</strong> <!-- Add annotation for Line 28 here --></p>
+</div>
+<div id="line29" style="display:none;">
+    <p><strong>Line 29:</strong> <!-- Add annotation for Line 29 here --></p>
+</div>
+<div id="line30" style="display:none;">
+    <p><strong>Line 30:</strong> <!-- Add annotation for Line 30 here --></p>
+</div>
+<div id="line31" style="display:none;">
+    <p><strong>Line 31:</strong> <!-- Add annotation for Line 31 here --></p>
+</div>
+<div id="line32" style="display:none;">
+    <p><strong>Line 32:</strong> <!-- Add annotation for Line 32 here --></p>
+</div>
+<div id="line33" style="display:none;">
+    <p><strong>Line 33:</strong> <!-- Add annotation for Line 33 here --></p>
+</div>
+<div id="line34" style="display:none;">
+    <p><strong>Line 34:</strong> <!-- Add annotation for Line 34 here --></p>
+</div>
+<div id="line35" style="display:none;">
+    <p><strong>Line 35:</strong> <!-- Add annotation for Line 35 here --></p>
+</div>
+<div id="line36" style="display:none;">
+    <p><strong>Line 36:</strong> <!-- Add annotation for Line 36 here --></p>
+</div>
+<div id="line37" style="display:none;">
+    <p><strong>Line 37:</strong> <!-- Add annotation for Line 37 here --></p>
+</div>
+<div id="line38" style="display:none;">
+    <p><strong>Line 38:</strong> <!-- Add annotation for Line 38 here --></p>
+</div>
+<div id="line39" style="display:none;">
+    <p><strong>Line 39:</strong> <!-- Add annotation for Line 39 here --></p>
+</div>
+<div id="line40" style="display:none;">
+    <p><strong>Line 40:</strong> <!-- Add annotation for Line 40 here --></p>
+</div>
+<div id="line41" style="display:none;">
+    <p><strong>Line 41:</strong> <!-- Add annotation for Line 41 here --></p>
+</div>
+<div id="line42" style="display:none;">
+    <p><strong>Line 42:</strong> <!-- Add annotation for Line 42 here --></p>
+</div>
+<div id="line43" style="display:none;">
+    <p><strong>Line 43:</strong> <!-- Add annotation for Line 43 here --></p>
+</div>
+<div id="line44" style="display:none;">
+    <p><strong>Line 44:</strong> <!-- Add annotation for Line 44 here --></p>
+</div>
+<div id="line45" style="display:none;">
+    <p><strong>Line 45:</strong> <!-- Add annotation for Line 45 here --></p>
+</div>
+<div id="line46" style="display:none;">
+    <p><strong>Line 46:</strong> <!-- Add annotation for Line 46 here --></p>
+</div>
+<div id="line47" style="display:none;">
+    <p><strong>Line 47:</strong> <!-- Add annotation for Line 47 here --></p>
+</div>
+<div id="line48" style="display:none;">
+    <p><strong>Line 48:</strong> <!-- Add annotation for Line 48 here --></p>
+</div>
+<div id="line49" style="display:none;">
+    <p><strong>Line 49:</strong> <!-- Add annotation for Line 49 here --></p>
+</div>
+<div id="line50" style="display:none;">
+    <p><strong>Line 50:</strong> <!-- Add annotation for Line 50 here --></p>
+</div>
+<div id="line51" style="display:none;">
+    <p><strong>Line 51:</strong> <!-- Add annotation for Line 51 here --></p>
+</div>
+<div id="line52" style="display:none;">
+    <p><strong>Line 52:</strong> <!-- Add annotation for Line 52 here --></p>
+</div>
+<div id="line53" style="display:none;">
+    <p><strong>Line 53:</strong> <!-- Add annotation for Line 53 here --></p>
+</div>
+<div id="line54" style="display:none;">
+    <p><strong>Line 54:</strong> <!-- Add annotation for Line 54 here --></p>
+</div>
+<!-- Popup for annotations -->
 <div id="annotation-popup" class="popup"></div>
 
 </body>
