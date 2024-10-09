@@ -49,7 +49,12 @@
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 30px;
-    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    
+    /* Center the content box */
+    max-width: 600px;
+    margin: 0 auto; /* Horizontally centre the box */
+    text-align: center; /* Ensure the text inside is centred */
 }
         .active-content {
             display: block;
@@ -156,7 +161,17 @@ document.addEventListener('click', function(event) {
     <button class="button" onclick="showContentBox('summary')">Summary</button>
 <button class="button" onclick="showContentBox('techniques')">Techniques</button>
 <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
-
+    
+    <div id="summary" class="content-box">
+    <p>"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life...</p>
+</div>
+<div id="techniques" class="content-box">
+    <p>Techniques used in the poem include imagery, symbolism, and alliteration...</p>
+</div>
+<div id="vocab" class="content-box">
+    <p>Key vocabulary includes "masquerades," "sordid," and "conscience."</p>
+</div>
+    
     <!-- Poem and Annotations Layout -->
     <div class="poem-container">
         <!-- Poem on the left -->
