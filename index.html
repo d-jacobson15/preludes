@@ -74,20 +74,35 @@
     height: 500px; /* Set a fixed height */
     overflow-y: auto; /* Allow vertical scrolling within the annotations container */
 }
-        .line {
-            cursor: pointer;
-            padding: 8px;
-            margin: 5px 0;
-            transition: background-color 0.3s ease, color 0.3s ease;
-        }
-        .line:hover {
-            background-color: #f0f0f0;
-            color: #0056b3;
-        }
-        .active-line {
-            background-color: #cce5ff;
-            color: #003366;
-        }
+        .popup {
+    position: absolute;
+    background-color: #eef7ff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 10px;
+    max-width: 300px;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    display: none;
+    z-index: 100;
+}
+
+.line {
+    cursor: pointer;
+    padding: 8px;
+    margin: 5px 0;
+    transition: background-color 0.3s ease, color 0.3s ease;
+    position: relative; /* Necessary for positioning the popup */
+}
+
+.line:hover {
+    background-color: #f0f0f0;
+    color: #0056b3;
+}
+
+.active-line {
+    background-color: #cce5ff;
+    color: #003366;
+}
         .annotation-content {
             display: none;
         }
@@ -110,13 +125,25 @@
             // Show the clicked content box
             document.getElementById(id).classList.add('active-content');
         }
-
 function showAnnotation(id, lineElement) {
-    // Hide all annotations
-    var annotations = document.getElementsByClassName('annotation-content');
-    for (var i = 0; i < annotations.length; i++) {
-        annotations[i].classList.remove('annotation-active');
-    }
+    // Get the annotation text based on the clicked line's ID
+    var annotationText = document.getElementById(id).innerHTML;
+
+    // Get the position of the clicked line
+    var rect = lineElement.getBoundingClientRect();
+
+    // Get the popup element
+    var popup = document.getElementById('annotation-popup');
+
+    // Set the content of the popup
+    popup.innerHTML = annotationText;
+
+    // Position the popup near the clicked line
+    popup.style.left = rect.right + window.scrollX + 10 + 'px'; // Adjust the popup to appear next to the line
+    popup.style.top = rect.top + window.scrollY + 'px'; // Align the popup vertically with the line
+
+    // Show the popup
+    popup.style.display = 'block';
 
     // Remove highlight from all lines
     var lines = document.getElementsByClassName('line');
@@ -124,15 +151,17 @@ function showAnnotation(id, lineElement) {
         lines[i].classList.remove('active-line');
     }
 
-    // Show the selected annotation
-    document.getElementById(id).classList.add('annotation-active');
-
     // Highlight the selected line
     lineElement.classList.add('active-line');
-
-    // Scroll to the annotations container
-    document.querySelector('.annotations').scrollIntoView({ behavior: 'smooth' });
 }
+
+// Close the popup if clicking elsewhere
+document.addEventListener('click', function(event) {
+    var popup = document.getElementById('annotation-popup');
+    if (!event.target.classList.contains('line')) {
+        popup.style.display = 'none'; // Hide the popup when clicking outside
+    }
+});
     </script>
 </head>
 <body>
@@ -402,6 +431,7 @@ function showAnnotation(id, lineElement) {
         </div>
     </div>
 </div>
+<div id="annotation-popup" class="popup"></div>
 
 </body>
 </html>
