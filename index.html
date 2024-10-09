@@ -109,25 +109,28 @@
             document.getElementById(id).classList.add('active-content');
         }
 
-        function showAnnotation(id, lineElement) {
-            // Hide all annotations
-            var annotations = document.getElementsByClassName('annotation-content');
-            for (var i = 0; i < annotations.length; i++) {
-                annotations[i].classList.remove('annotation-active');
-            }
+function showAnnotation(id, lineElement) {
+    // Hide all annotations
+    var annotations = document.getElementsByClassName('annotation-content');
+    for (var i = 0; i < annotations.length; i++) {
+        annotations[i].classList.remove('annotation-active');
+    }
 
-            // Remove highlight from all lines
-            var lines = document.getElementsByClassName('line');
-            for (var i = 0; i < lines.length; i++) {
-                lines[i].classList.remove('active-line');
-            }
+    // Remove highlight from all lines
+    var lines = document.getElementsByClassName('line');
+    for (var i = 0; i < lines.length; i++) {
+        lines[i].classList.remove('active-line');
+    }
 
-            // Show the selected annotation
-            document.getElementById(id).classList.add('annotation-active');
+    // Show the selected annotation
+    document.getElementById(id).classList.add('annotation-active');
 
-            // Highlight the selected line
-            lineElement.classList.add('active-line');
-        }
+    // Highlight the selected line
+    lineElement.classList.add('active-line');
+
+    // Scroll to the annotations container
+    document.querySelector('.annotations').scrollIntoView({ behavior: 'smooth' });
+}
     </script>
 </head>
 <body>
