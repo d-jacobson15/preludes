@@ -43,14 +43,14 @@
             background-color: #003366;
         }
         .content-box {
-            display: none;
-            background-color: #eef7ff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            margin-bottom: 30px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+    display: none;
+    background-color: #eef7ff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    margin-bottom: 30px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+}
         .active-content {
             display: block;
         }
@@ -129,7 +129,13 @@
     // Highlight the selected line
     lineElement.classList.add('active-line');
 }
-
+function showContentBox(id) {
+    var contentBoxes = document.getElementsByClassName('content-box');
+    for (var i = 0; i < contentBoxes.length; i++) {
+        contentBoxes[i].style.display = 'none'; // Hide all content boxes
+    }
+    document.getElementById(id).style.display = 'block'; // Show the clicked content box
+}
 // Close the popup if clicking elsewhere
 document.addEventListener('click', function(event) {
     var popup = document.getElementById('annotation-popup');
@@ -145,12 +151,15 @@ document.addEventListener('click', function(event) {
     <h1>PRELUDES<br>T.S. Eliot | 1917</h1>
 
     <!-- Buttons Section -->
-    <div class="buttons">
-        <button class="button" onclick="showContentBox('summary')">"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life, focusing on the monotony, alienation, and spiritual decay of its inhabitants. Eliot presents a world in which time is cyclical, where each day is consumed by repetitive, meaningless routines. The poem's imagery, including withered leaves, grimy streets, and sordid rooms, reflects the decay and desolation of both the physical and moral landscape. Individuals are reduced to mere body parts or mechanical actions, disconnected from any deeper sense of purpose. Throughout, Eliot critiques the dehumanising effects of industrialisation, portraying life as a series of empty performances or "masquerades." The poem concludes with an image of "ancient women gathering fuel in vacant lots," reinforcing the sense of futility, as life continues to revolve in endless, purposeless cycles, with no hope for redemption or renewal.
-</button>
-        <button class="button" onclick="showContentBox('techniques')">Techniques</button>
-        <button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
-    </div>
+    <div id="summary" class="content-box">
+    <p>"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life...</p>
+</div>
+<div id="techniques" class="content-box">
+    <p>Techniques used in the poem include imagery, symbolism, and alliteration...</p>
+</div>
+<div id="vocab" class="content-box">
+    <p>Key vocabulary includes "masquerades," "sordid," and "conscience."</p>
+</div>
 
     <!-- Poem and Annotations Layout -->
     <div class="poem-container">
