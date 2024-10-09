@@ -43,7 +43,7 @@
             background-color: #003366;
         }
         .content-box {
-    display: none;
+    display: none; /* Initially hides all content boxes */
     background-color: #eef7ff;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -130,11 +130,13 @@
     lineElement.classList.add('active-line');
 }
 function showContentBox(id) {
+    // Hide all content boxes
     var contentBoxes = document.getElementsByClassName('content-box');
     for (var i = 0; i < contentBoxes.length; i++) {
-        contentBoxes[i].style.display = 'none'; // Hide all content boxes
+        contentBoxes[i].style.display = 'none';
     }
-    document.getElementById(id).style.display = 'block'; // Show the clicked content box
+    // Show the selected content box
+    document.getElementById(id).style.display = 'block';
 }
 // Close the popup if clicking elsewhere
 document.addEventListener('click', function(event) {
@@ -151,15 +153,9 @@ document.addEventListener('click', function(event) {
     <h1>PRELUDES<br>T.S. Eliot | 1917</h1>
 
     <!-- Buttons Section -->
-    <div id="summary" class="content-box">
-    <p>"Preludes" is a quadriptych poem that captures the bleak, fragmented reality of modern urban life...</p>
-</div>
-<div id="techniques" class="content-box">
-    <p>Techniques used in the poem include imagery, symbolism, and alliteration...</p>
-</div>
-<div id="vocab" class="content-box">
-    <p>Key vocabulary includes "masquerades," "sordid," and "conscience."</p>
-</div>
+    <button class="button" onclick="showContentBox('summary')">Summary</button>
+<button class="button" onclick="showContentBox('techniques')">Techniques</button>
+<button class="button" onclick="showContentBox('vocab')">Key Vocabulary</button>
 
     <!-- Poem and Annotations Layout -->
     <div class="poem-container">
