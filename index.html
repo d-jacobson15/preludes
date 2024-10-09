@@ -65,7 +65,6 @@
         }
         .popup {
     position: absolute;
-    left: calc(100% + 30px); /* Adjust to position it right next to the poem */
     background-color: #eef7ff;
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -74,6 +73,7 @@
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
     display: none;
     z-index: 100;
+    left: 50%; /* Adjust this value to position it next to the poem */
 }
         .line {
             cursor: pointer;
@@ -109,11 +109,13 @@
     // Set the content of the popup
     popup.innerHTML = annotationText;
 
-    // Position the popup vertically with the clicked line
+    // Position the popup near the clicked line
     popup.style.top = rect.top + window.scrollY + 'px'; // Align the popup vertically with the line
 
-    // Adjust the left position to place it next to the poem
-    popup.style.left = rect.left + lineElement.offsetWidth + 30 + 'px'; // Add 30px space next to the poem
+    // Position the popup to the right of the poem container, not the page
+    var poemContainer = document.querySelector('.poem');
+    var poemRect = poemContainer.getBoundingClientRect();
+    popup.style.left = poemRect.right + 10 + 'px'; // Adjust the space next to the poem
 
     // Show the popup
     popup.style.display = 'block';
