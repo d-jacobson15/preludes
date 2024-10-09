@@ -64,14 +64,16 @@
             padding-right: 20px;
         }
         .annotations {
-            flex: 1;
-            padding-left: 20px;
-            background-color: #eef7ff;
-            border: 1px solid #ccc;
-            border-radius: 8px;
-            padding: 20px;
-            box-shadow: 0 4px 8px rgba(0,0,0,0.1);
-        }
+    flex: 1;
+    padding-left: 20px;
+    background-color: #eef7ff;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 20px;
+    box-shadow: 0 4px 8px rgba(0,0,0,0.1);
+    height: 500px; /* Set a fixed height */
+    overflow-y: auto; /* Allow vertical scrolling within the annotations container */
+}
         .line {
             cursor: pointer;
             padding: 8px;
