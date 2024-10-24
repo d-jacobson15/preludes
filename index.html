@@ -56,19 +56,18 @@
         .button:hover {
             background-color: #285c3c;
         }
-        .content-box {
-    display: none; /* Initially hides all content boxes */
+.content-box {
+    display: none;
     background-color: #fffae0;
     border: 1px solid #ccc;
     border-radius: 8px;
     padding: 20px;
     margin-bottom: 30px;
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
-    
-    /* Center the content box */
     max-width: 600px;
-    margin: 0 auto; /* Horizontally centre the box */
-    text-align: center; /* Ensure the text inside is centred */
+    margin: 0 auto;
+    text-align: center;
+    position: relative; /* Add this line */
 }
         .active-content {
             display: block;
@@ -177,7 +176,7 @@ document.addEventListener('click', function(event) {
 
 <div class="container">
     <h1>PRELUDES<br>T.S. Eliot | 1917</h1>
-    <p style="text-align: center; font-style: italic; font-size: 10px; margin-top: 10px;">Annotated by D. Jacobson</p>
+    <p style="text-align: center; font-style: italic; font-size: 12px; margin-top: 5px;">Annotated by D. Jacobson</p>
 
    <!-- Buttons Section -->
     <div class="buttons">
